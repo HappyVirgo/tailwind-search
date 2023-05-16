@@ -1,0 +1,887 @@
+<html>
+<link href="
+https://cdn.jsdelivr.net/npm/tw-elements@1.0.0-beta1/dist/css/index.min.css
+" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.css"
+  integrity="sha512-MKxcSu/LDtbIYHBNAWUQwfB3iVoG9xeMCm32QV5hZ/9lFaQZJVaXfz9aFa0IZExWzCpm7OWvp9zq9gVip/nLMg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+  [x-cloak] {
+    display: none !important;
+  }
+
+  .noUi-target {
+    height: 32px;
+  }
+
+  .noUi-target.noUi-vertical {
+    height: 200px;
+    width: 32px;
+    margin: 0 auto 30px;
+  }
+
+  .noUi-base .noUi-connect {
+    background-color: rgb(75, 85, 99);
+  }
+
+  .noUi-base .noUi-handle {
+    background-color: rgb(75, 85, 99);
+    border: none;
+    border-radius: 6px;
+    box-shadow: none;
+    color: #FFFFFF;
+    display: table;
+    font-size: 15px;
+    height: 40px;
+    right: -36px;
+    margin-left: -22px;
+    margin-top: -5px;
+    padding: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 80px;
+    z-index: 2;
+  }
+
+  .noUi-horizontal .noUi-base .noUi-handle {
+    cursor: ew-resize;
+  }
+
+  .noUi-vertical .noUi-base .noUi-handle {
+    cursor: ns-resize;
+    margin-left: -24px;
+  }
+
+  .noUi-base .noUi-handle:hover {
+    background-color: rgb(75, 85, 99);
+  }
+
+  .noUi-base .noUi-handle.noUi-active {
+    background-color: rgb(75, 85, 99);
+    z-index: 3;
+  }
+
+  .noUi-base .noUi-handle::before {
+    background: transparent;
+    content: attr(data-value);
+    display: table-cell;
+    font-size: 18px;
+    font-weight: 100;
+    position: static;
+    width: 100%;
+    vertical-align: middle;
+  }
+
+  .noUi-base .noUi-handle::after {
+    display: none;
+  }
+
+  #slider1 .noUi-base .noUi-handle.noUi-handle-upper::before {
+    content: attr(data-value) ' yo';
+  }
+
+  #slider2 .noUi-base .noUi-handle::before {
+    content: attr(data-value) '"';
+  }
+
+  #slider3 .noUi-base .noUi-handle.noUi-handle-upper::before {
+    content: attr(data-value) ' lbs';
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"
+  integrity="sha512-UOJe4paV6hYWBnS0c9GnIRH8PLm2nFK22uhfAvsTIqd3uwnWsVri1OPn5fJYdLtGY3wB11LGHJ4yPU1WFJeBYQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.tailwindcss.com/3.2.4"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"],
+        body: ["Roboto", "sans-serif"],
+        mono: ["ui-monospace", "monospace"],
+      },
+    },
+    corePlugins: {
+      preflight: false,
+    },
+  };
+
+  updateSliderValue = function (slider, handle = 0) {
+    var children, i, results, val, values;
+    children = slider.getElementsByClassName('noUi-handle');
+    values = slider.noUiSlider.get();
+    i = 0;
+    results = [];
+    while (i < children.length) {
+      if (children.length === 1) {
+        val = parseInt(values);
+      } else {
+        val = parseInt(values[i]);
+      }
+      children[i].dataset.value = val;
+      results.push(i++);
+    }
+    return results;
+  };
+
+  function myFunc() {
+    var slider1 = document.getElementById('slider1');
+    var slider2 = document.getElementById('slider2');
+    var slider3 = document.getElementById('slider3');
+
+    noUiSlider.create(slider1, {
+      start: [18, 80],
+      step: 1,
+      connect: true,
+      range: {
+        'min': 18,
+        'max': 80
+      }
+    });
+    slider1.noUiSlider.on('update', function () {
+      return updateSliderValue(slider1);
+    });
+    noUiSlider.create(slider2, {
+      start: [55, 67],
+      connect: true,
+      range: {
+        'min': 55,
+        'max': 67
+      }
+    });
+    slider2.noUiSlider.on('update', function () {
+      return updateSliderValue(slider2);
+    });
+    noUiSlider.create(slider3, {
+      start: [100, 305],
+      connect: true,
+      range: {
+        'min': 100,
+        'max': 305
+      }
+    });
+    slider3.noUiSlider.on('update', function () {
+      return updateSliderValue(slider3);
+    });
+  }
+</script>
+
+<body onload="myFunc()" class="text-gray-100">
+  <div class="p-4 fixed flex justify-between w-full bg-black items-center z-10 md:bg-transparent md:bg-transparent">
+    <span class="text-base text-white">Search Filters</span>
+  </div>
+  <div class="min-h-screen bg-black z-10 flex justify-center items-center flex-col pt-20 md:pt-0">
+    <div class="w-full flex justify-center items-center p-4">
+      <div class="mx-auto flex flex-col space-y-9 md:flex-row md:space-x-9 md:space-y-0">
+        <div class="flex-1 flex-col space-y-3 min-w-[320px] items-center">
+          <div class="flex w-full">
+            <div class="pt-2 flex-1" x-data="{open: false}" @click="open = true">
+              <div class="relative flex items-center cursor-pointer text-sm font-medium">
+                <div class="border-b w-full pb-2 flex justify-between items-center">
+                  <div class="flex space-x-1 justify-center items-center">
+                    <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                      </path>
+                      <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="1.5"></circle>
+                    </svg>
+                    <span class="text-gray-100">Search in all locations</span>
+                  </div>
+                </div>
+                <div
+                  class="z-10 m-0 origin-top-right absolute top-10 left-0 w-full overflow-auto shadow-lg backdrop-blur-sm bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  x-show="open" x-cloak>
+                  <div @click.away="open = false" id="dropdownHelper"
+                    class="w-full z-10 bg-gray shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <div class="w-full flex p-2 space-x-1 items-center dark:hover:bg-gray-600">
+                      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M4.75 19.25L12 4.75L19.25 19.25L12 15.75L4.75 19.25Z"></path>
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M12 15.5V12.75"></path>
+                      </svg>
+                      <span>Nearby Profiles</span>
+                    </div>
+                    <div class="w-full flex p-2 dark:hover:bg-gray-600">
+                      SELECT LOCATION
+                    </div>
+                    <ul class="space-y-1 text-sm text-gray-100 dark:text-gray-200 max-h-[200px] overflow-auto"
+                      aria-labelledby="dropdownHelperButton">
+                      <li>
+                        <div class="w-full flex p-2 space-x-1 items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                            </path>
+                            <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="1.5"></circle>
+                          </svg>
+                          <span>Tirana, Albania</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex p-2 space-x-1 items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                            </path>
+                            <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="1.5"></circle>
+                          </svg>
+                          <span>Tirana, Albania</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex p-2 space-x-1 items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                            </path>
+                            <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="1.5"></circle>
+                          </svg>
+                          <span>Tirana, Albania</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex p-2 space-x-1 items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                            </path>
+                            <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="1.5"></circle>
+                          </svg>
+                          <span>Tirana, Albania</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex p-2 space-x-1 items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                            </path>
+                            <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="1.5"></circle>
+                          </svg>
+                          <span>Tirana, Albania</span>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex p-2 space-x-1 items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M18.25 11C18.25 15 12 19.25 12 19.25C12 19.25 5.75 15 5.75 11C5.75 7.5 8.68629 4.75 12 4.75C15.3137 4.75 18.25 7.5 18.25 11Z">
+                            </path>
+                            <circle cx="12" cy="11" r="2.25" stroke="currentColor" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="1.5"></circle>
+                          </svg>
+                          <span>Tirana, Albania</span>
+                        </div>
+                      </li>
+                    </ul>
+                    <div class="p-3">
+                      <span
+                        class="w-full flex items-center justify-center border border-gray-300 p-3 rounded hover:bg-gray-300 hover:text-gray-700">Search
+                        in All Locations</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative mb-3">
+            <input type="text" placeholder="est sed tempus feugiat"
+              class="peer placeholder:text-gray-300 m-0 block h-[48px] border-b border-solid w-full bg-transparent pl-10 pr-3 py-4 focus:outline-none" />
+            <svg class="absolute top-2 left-0 text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="7.25" stroke="currentColor" stroke-width="1.5"></circle>
+              <path stroke="currentColor" stroke-width="1.5" d="M12 8V12L14 14"></path>
+            </svg>
+          </div>
+          <div class="relative mb-3">
+            <input type="text"
+              class="peer m-0 block h-[48px] w-full border-b border-solid border-neutral-300 bg-transparent bg-clip-padding pr-3 pl-10 py-4 text-base font-normal leading-tight text-neutral-700 ease-in-out placeholder:text-transparent focus:border-b focus:text-white focus:backdrop-blur-sm focus:bg-white/30 focus:pt-[1.625rem] focus:pb-[0.625rem] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not(:placeholder-shown)]:pt-[1.625rem] [&:not(:placeholder-shown)]:pb-[0.625rem]"
+              id="floatingInput" placeholder="Search by name, hashtag or keyword" />
+            <label for="floatingInput"
+              class="pointer-events-none absolute top-0 left-6 origin-[0_0] border border-solid border-transparent py-4 px-3 text-gray-300 transition-[opacity,_transform] duration-100 ease-in-out peer-focus:translate-x-[0.15rem] peer-focus:-translate-y-2 peer-focus:scale-[0.85] peer-focus:opacity-[0.65] peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:scale-[0.85] peer-[:not(:placeholder-shown)]:opacity-[0.65] motion-reduce:transition-none dark:text-neutral-200">Search
+              by name, hashtag or keyword</label>
+            <svg class="absolute top-2 transform left-0 text-white" width="36" height="36" fill="none"
+              viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M19.25 19.25L15.5 15.5M4.75 11C4.75 7.54822 7.54822 4.75 11 4.75C14.4518 4.75 17.25 7.54822 17.25 11C17.25 14.4518 14.4518 17.25 11 17.25C7.54822 17.25 4.75 14.4518 4.75 11Z" />
+            </svg>
+          </div>
+          <div class="flex justify-between items-center border-b border-solid w-full h-[48px]">
+            <div class="flex space-x-1 text-gray-100 items-center">
+              <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M19.25 12C19.25 13 17.5 18.25 12 18.25C6.5 18.25 4.75 13 4.75 12C4.75 11 6.5 5.75 12 5.75C17.5 5.75 19.25 11 19.25 12Z">
+                </path>
+                <circle cx="12" cy="12" r="2.25" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="1.5"></circle>
+              </svg>
+              <span>es sed tempus feugiat</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" value="" class="sr-only peer">
+              <div
+                class="w-11 h-6 bg-gray-700 peer-focus:outline-none dark:peer-focus:ring-red-600 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600">
+              </div>
+            </label>
+          </div>
+          <div class="flex w-full">
+            <div class="py-2 flex-1" x-data="{open: false}" @click="open = true">
+              <div class="relative flex items-center cursor-pointer text-sm font-medium">
+                <div class="border-b w-full pb-2 flex justify-between items-center">
+                  <div class="flex space-x-1 justify-center items-center">
+                    <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M4.75 6.75C4.75 5.64543 5.64543 4.75 6.75 4.75H17.25C18.3546 4.75 19.25 5.64543 19.25 6.75V14.25C19.25 15.3546 18.3546 16.25 17.25 16.25H14.625L12 19.25L9.375 16.25H6.75C5.64543 16.25 4.75 15.3546 4.75 14.25V6.75Z">
+                      </path>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.5 11C9.5 11.2761 9.27614 11.5 9 11.5C8.72386 11.5 8.5 11.2761 8.5 11C8.5 10.7239 8.72386 10.5 9 10.5C9.27614 10.5 9.5 10.7239 9.5 11Z">
+                      </path>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        d="M12.5 11C12.5 11.2761 12.2761 11.5 12 11.5C11.7239 11.5 11.5 11.2761 11.5 11C11.5 10.7239 11.7239 10.5 12 10.5C12.2761 10.5 12.5 10.7239 12.5 11Z">
+                      </path>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.5 11C15.5 11.2761 15.2761 11.5 15 11.5C14.7239 11.5 14.5 11.2761 14.5 11C14.5 10.7239 14.7239 10.5 15 10.5C15.2761 10.5 15.5 10.7239 15.5 11Z">
+                      </path>
+                    </svg>
+                    <span class="text-gray-100">est sed tempus feugiat</span>
+                  </div>
+                  <svg x-show="!open" class="rotate-90" width="20" height="20" fill="#ffffff" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M18.25 12L5.75 5.75V18.25L18.25 12Z"></path>
+                  </svg>
+                  <svg x-show="open" class="-rotate-90" width="20" height="20" fill="#ffffff" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M18.25 12L5.75 5.75V18.25L18.25 12Z"></path>
+                  </svg>
+                </div>
+                <div
+                  class="z-10 m-0 origin-top-right absolute top-10 left-0 w-full shadow-lg backdrop-blur-sm bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  x-show="open" x-cloak>
+                  <div @click.away="open = false" id="dropdownHelper"
+                    class="w-full z-10 bg-gray divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="dropdownHelperButton">
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="helper-checkbox-1" aria-describedby="helper-checkbox-text-1" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="helper-checkbox-1"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ultricies</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="helper-checkbox-2" aria-describedby="helper-checkbox-text-2" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="helper-checkbox-2"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Tristique</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="helper-checkbox-3" aria-describedby="helper-checkbox-text-3" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="helper-checkbox-3"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Nullam</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="helper-checkbox-4" aria-describedby="helper-checkbox-text-4" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="helper-checkbox-4"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ipsum</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="helper-checkbox-5" aria-describedby="helper-checkbox-text-5" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="helper-checkbox-5"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ask me</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col space-y-8 px-9">
+            <div id="slider1" class="mt-4" unit="yo"></div>
+            <div id="slider2"></div>
+            <div id="slider3"></div>
+          </div>
+        </div>
+        <div class="flex-1 space-y-3">
+          <ul class="grid grid-cols-3 gap-x-3 max-w-md mx-auto text-xs">
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="align" id="top">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="top">
+                <img class="w-[36px]" src="https://iconic.app/icons/iconic/png/white/align-top.png">
+                <span>Top</span>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="align" id="versatile">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="versatile">
+                <div class="flex">
+                  <img class="w-[36px]" src="https://iconic.app/icons/iconic/png/white/align-top.png">
+                  <img class="w-[36px]" src="https://iconic.app/icons/iconic/png/white/align-bottom.png">
+                </div>
+                <span>Versatile</span>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="align" id="bottom">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="bottom">
+                <img class="w-[36px]" src="https://iconic.app/icons/iconic/png/white/align-bottom.png">
+                <span>Bottom</span>
+              </label>
+            </li>
+          </ul>
+          <ul class="grid grid-cols-3 gap-x-3 max-w-md mx-auto">
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="userType" id="new-guys">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="new-guys">
+                <span class="text-xs">New Guys</span>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="userType" id="most-reviewed">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="most-reviewed">
+                <span class="text-xs">Most Reviewed</span>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="userType" id="users-with-videos">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="users-with-videos">
+                <span class="text-xs">Users with videos</span>
+              </label>
+            </li>
+          </ul>
+          <div class="text-gray-100 flex space-x-1 items-center space-x-1">
+            <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+              <circle cx="15" cy="9" r="1" fill="currentColor"></circle>
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M12 4.75H19.25V12L12.5535 18.6708C11.7544 19.4668 10.4556 19.445 9.68369 18.6226L5.28993 13.941C4.54041 13.1424 4.57265 11.8895 5.36226 11.1305L12 4.75Z">
+              </path>
+            </svg>
+            <span>Cursus Sit</span>
+          </div>
+          <ul class="grid grid-cols-5 gap-x-3 max-w-md mx-auto text-xs">
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="taskSize" id="s-type">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="s-type">
+                <p class="text-base font-bold">S</p>
+                <p>1 - 5</p>
+                <p>In</p>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="taskSize" id="m-type">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="m-type">
+                <p class="text-base font-bold">M</p>
+                <p>5.5 - 6</p>
+                <p>In</p>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="taskSize" id="l-type">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="l-type">
+                <p class="text-base font-bold">L</p>
+                <p>6.5 - 7.5</p>
+                <p>In</p>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="taskSize" id="xl-type">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="xl-type">
+                <p class="text-base font-bold">XL</p>
+                <p>8 - 9.5</p>
+                <p>In</p>
+              </label>
+            </li>
+
+            <li class="relative">
+              <input class="sr-only peer" type="radio" value="yes" name="taskSize" id="xxl-type">
+              <label
+                class="flex flex-col items-center justify-center px-2 py-3 bg-transparent border border-gray-300 rounded cursor-pointer focus:outline-none hover:bg-gray-700 peer-checked:border-transparent peer-checked:bg-gray-300 peer-checked:text-gray-700"
+                for="xxl-type">
+                <p class="text-base font-bold">XXL</p>
+                <p>10 - ∞</p>
+                <p>In</p>
+              </label>
+            </li>
+          </ul>
+          <div class="flex space-x-3">
+            <div class="relative">
+              <input type="text" placeholder="Rate from"
+                class="peer placeholder:text-gray-300 m-0 block h-[48px] border-b border-solid w-full bg-transparent pl-8 pr-3 py-4 focus:outline-none" />
+              <h1 class="absolute top-2 left-0 text-white text-3xl m-0 font-thin">$</h1>
+            </div>
+            <div class="relative">
+              <input type="text" placeholder="Rate to"
+                class="peer placeholder:text-gray-300 m-0 block h-[48px] border-b border-solid w-full bg-transparent pl-8 pr-3 py-4 focus:outline-none" />
+              <h1 class="absolute top-2 left-0 text-white text-3xl m-0 font-thin">$</h1>
+            </div>
+          </div>
+          <div class="flex w-full">
+            <div class="flex-1" x-data="{open: false}" @click="open = true">
+              <div class="relative flex items-center cursor-pointer text-sm font-medium">
+                <div class="border-b w-full pb-2 flex justify-between items-center">
+                  <div class="flex space-x-1 justify-center items-center">
+                    <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                      <circle cx="12" cy="8" r="3.25" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="1.5"></circle>
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M6.8475 19.25H17.1525C18.2944 19.25 19.174 18.2681 18.6408 17.2584C17.8563 15.7731 16.068 14 12 14C7.93201 14 6.14367 15.7731 5.35924 17.2584C4.82597 18.2681 5.70558 19.25 6.8475 19.25Z">
+                      </path>
+                    </svg>
+                    <span class="text-gray-100">Auctor</span>
+                  </div>
+                  <svg x-show="!open" class="rotate-90" width="20" height="20" fill="#ffffff" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M18.25 12L5.75 5.75V18.25L18.25 12Z"></path>
+                  </svg>
+                  <svg x-show="open" class="-rotate-90" width="20" height="20" fill="#ffffff" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M18.25 12L5.75 5.75V18.25L18.25 12Z"></path>
+                  </svg>
+                </div>
+                <div
+                  class="z-10 m-0 origin-top-right absolute top-10 left-0 w-full shadow-lg backdrop-blur-sm bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  x-show="open" x-cloak>
+                  <div @click.away="open = false" id="dropdownHelper"
+                    class="w-full z-10 bg-gray divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="dropdownHelperButton">
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="actor-checkbox-4" aria-describedby="actor-checkbox-text-4" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="actor-checkbox-4"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ipsum</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="actor-checkbox-5" aria-describedby="actor-checkbox-text-5" type="checkbox"
+                              value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="actor-checkbox-5"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ask me</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex w-full">
+            <div class="flex-1" x-data="{open: false}" @click="open = true">
+              <div class="relative flex items-center cursor-pointer text-sm font-medium">
+                <div class="border-b w-full pb-2 flex justify-between items-center">
+                  <div class="flex space-x-1 justify-center items-center">
+                    <svg class="text-white" width="36" height="36" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M12 4.75L4.75001 8C4.75001 8 4.00001 19.25 12 19.25C20 19.25 19.25 8 19.25 8L12 4.75Z">
+                      </path>
+                    </svg>
+                    <span class="text-gray-100">Safe/bb</span>
+                  </div>
+                  <svg x-show="!open" class="rotate-90" width="20" height="20" fill="#ffffff" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M18.25 12L5.75 5.75V18.25L18.25 12Z"></path>
+                  </svg>
+                  <svg x-show="open" class="-rotate-90" width="20" height="20" fill="#ffffff" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M18.25 12L5.75 5.75V18.25L18.25 12Z"></path>
+                  </svg>
+                </div>
+                <div
+                  class="z-10 m-0 origin-top-right absolute top-10 left-0 w-full shadow-lg backdrop-blur-sm bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  x-show="open" x-cloak>
+                  <div @click.away="open = false" id="dropdownHelper"
+                    class="w-full z-10 bg-gray divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                      aria-labelledby="dropdownHelperButton">
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="safe-checkbox-4" aria-describedby="safe-checkbox-text-4" type="checkbox" value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="safe-checkbox-4"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ipsum</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="w-full flex items-center hover:bg-gray-600 dark:hover:bg-gray-600">
+                          <div class="mx-2 flex items-center h-5">
+                            <input id="safe-checkbox-5" aria-describedby="safe-checkbox-text-5" type="checkbox" value=""
+                              class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                          </div>
+                          <div class="text-sm flex-1">
+                            <label for="safe-checkbox-5"
+                              class="font-medium text-gray-100 dark:text-gray-300 flex p-2 cursor-pointer">
+                              <div>Ask me</div>
+                            </label>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center border-b border-solid w-full h-[48px]">
+            <div class="flex space-x-1 text-gray-100 items-center">
+              <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                </path>
+              </svg>
+              <span>Vehiculaat least</span>
+            </div>
+            <div class="flex space-x-1" x-data="{rate:0}">
+              <div @click="rate=1">
+                <svg x-show="rate>0" width="36" height="36" fill="#ff0000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+                <svg x-show="rate<1" width="36" height="36" fill="#000000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+              </div>
+              <div @click="rate=2">
+                <svg x-show="rate>1" width="36" height="36" fill="#ff0000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+                <svg x-show="rate<2" width="36" height="36" fill="#000000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+              </div>
+              <div @click="rate=3">
+                <svg x-show="rate>2" width="36" height="36" fill="#ff0000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+                <svg x-show="rate<3" width="36" height="36" fill="#000000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+              </div>
+              <div @click="rate=4">
+                <svg x-show="rate>3" width="36" height="36" fill="#ff0000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+                <svg x-show="rate<4" width="36" height="36" fill="#000000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+              </div>
+              <div @click="rate=5">
+                <svg x-show="rate>4" width="36" height="36" fill="#ff0000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+                <svg x-show="rate<5" width="36" height="36" fill="#000000" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 4.75L13.75 10.25H19.25L14.75 13.75L16.25 19.25L12 15.75L7.75 19.25L9.25 13.75L4.75 10.25H10.25L12 4.75Z">
+                  </path>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between items-center border-b border-solid w-full h-[48px]">
+            <div class="flex space-x-1 text-gray-100 items-center">
+              <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M4.75 5.75C4.75 5.19772 5.19772 4.75 5.75 4.75H9.25C9.80228 4.75 10.25 5.19772 10.25 5.75V9.25C10.25 9.80228 9.80228 10.25 9.25 10.25H5.75C5.19772 10.25 4.75 9.80228 4.75 9.25V5.75Z">
+                </path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M4.75 14.75C4.75 14.1977 5.19772 13.75 5.75 13.75H9.25C9.80228 13.75 10.25 14.1977 10.25 14.75V18.25C10.25 18.8023 9.80228 19.25 9.25 19.25H5.75C5.19772 19.25 4.75 18.8023 4.75 18.25V14.75Z">
+                </path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M13.75 5.75C13.75 5.19772 14.1977 4.75 14.75 4.75H18.25C18.8023 4.75 19.25 5.19772 19.25 5.75V9.25C19.25 9.80228 18.8023 10.25 18.25 10.25H14.75C14.1977 10.25 13.75 9.80228 13.75 9.25V5.75Z">
+                </path>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M13.75 14.75C13.75 14.1977 14.1977 13.75 14.75 13.75H18.25C18.8023 13.75 19.25 14.1977 19.25 14.75V18.25C19.25 18.8023 18.8023 19.25 18.25 19.25H14.75C14.1977 19.25 13.75 18.8023 13.75 18.25V14.75Z">
+                </path>
+              </svg>
+              <span>Show results in</span>
+            </div>
+            <div class="flex space-x-8 text-gray-100">
+              <span class="w-11 text-left">List</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" class="sr-only peer">
+                <div
+                  class="w-11 h-6 bg-red-700 peer-focus:outline-none dark:peer-focus:ring-red-600 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600">
+                </div>
+              </label>
+              <span class="w-11 text-right">Grid</span>
+            </div>
+          </div>
+          <div class="flex justify-between items-center border-b border-solid w-full h-[48px]">
+            <div class="flex space-x-1 text-gray-100 items-center">
+              <img class="rotate-90 w-[36px]" src="https://iconic.app/icons/iconic/png/white/triangle-ruler.png">
+              <span>Units</span>
+            </div>
+            <div class="flex space-x-8 text-gray-100">
+              <span class="w-11 text-left">Imperial</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" value="" class="sr-only peer">
+                <div
+                  class="w-11 h-6 bg-red-700 peer-focus:outline-none dark:peer-focus:ring-red-600 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600">
+                </div>
+              </label>
+              <span class="w-11 text-right">Metric</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-center space-x-3 text-gray-100 mt-4">
+      <span class="text-base text-white">More Filters</span>
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M4.75 12C4.75 7.99594 7.99594 4.75 12 4.75V4.75C16.0041 4.75 19.25 7.99594 19.25 12V12C19.25 16.0041 16.0041 19.25 12 19.25V19.25C7.99594 19.25 4.75 16.0041 4.75 12V12Z">
+        </path>
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M9.75 12.75L10.1837 13.6744C10.5275 14.407 11.5536 14.4492 11.9564 13.7473L14.25 9.75"></path>
+      </svg>
+    </div>
+  </div>
+</body>
+
+</html>
